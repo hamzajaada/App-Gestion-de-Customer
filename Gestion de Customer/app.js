@@ -10,8 +10,13 @@ app.use(express.static('public'))
 
 
 app.get("/", (req, res) => {
-// result ==> array of objects
-res.render("index");
+  Mydata.find().then(result=>{
+    res.render("index",{arr: result})
+  })
+  .catch(err=>{
+    console.log(err);
+  });
+;
 
 });
 
