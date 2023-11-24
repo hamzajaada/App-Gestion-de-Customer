@@ -9,31 +9,9 @@ app.set("view engine", "ejs");
 app.use(express.static('public'))
 
 
-// Auto refresh
-const path = require("path");
-const livereload = require("livereload");
-const liveReloadServer = livereload.createServer();
-liveReloadServer.watch(path.join(__dirname, 'public'));
- 
- 
-const connectLivereload = require("connect-livereload");
-app.use(connectLivereload());
- 
-liveReloadServer.server.once("connection", () => {
-  setTimeout(() => {
-    liveReloadServer.refresh("/");
-  }, 100);
-});
-
-
-
-
-
-
-
 app.get("/", (req, res) => {
 // result ==> array of objects
-res.render("index", {   });
+res.render("index");
 
 });
 
@@ -48,12 +26,23 @@ app.get("/user/view.html", (req, res) => {
 app.get("/user/edit.html", (req, res) => {
   res.render("user/edit")
 });
-
+app.post("/user/add.html",async(req,res)=>{
+  //console.log(req.body)
+  const article  = new  Mydata(req.body)
+    await article.save().then(result=>{
+      console.log("created");
+      res.redirect("/")
+    })
+    .catch(err=>{
+      console.log(err);
+    });
+})
 mongoose
   .connect(url)
   .then(() => {
     app.listen(port, () => {
       console.log(`http://localhost:${port}/`);
+      console.log("connected to db")
     });
   })
   .catch((err) => {

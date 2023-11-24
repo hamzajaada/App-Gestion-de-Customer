@@ -4,7 +4,13 @@ const Schema = mongoose.Schema;
 
 // define the Schema (the structure of the article)
 const articleSchema = new Schema({
-  userNameee: String
+  lastName:String,
+  firstName:String,
+  email:String,
+  phoneNumber:String,
+  age:Number,
+  country :String,
+  gender:String,
 });
 
 
